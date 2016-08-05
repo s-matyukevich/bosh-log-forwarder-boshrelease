@@ -1,7 +1,7 @@
 ---
 name: bosh-log-forwarder
 templates:
-  generage_config.sh.erb: bin/generate_config.sh
+  generate_config.sh.erb: bin/generate_config.sh
   ctl: bin/ctl
   filebeat.template.json: config/filebeat.template.json
 

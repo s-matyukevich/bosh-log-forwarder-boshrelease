@@ -5,11 +5,11 @@ config=/var/vcap/jobs/bosh-log-forwarder/config/filebeat.yml
 cat > $config <<EOF
 output:
   elasticsearch:
-    hosts: <%= p("elasticsearch.hosts").to_json%> 
+    hosts: <%= p("elasticsearch.hosts").to_json%>
     protocol: '<%=p("elasticsearch.protocol")%>'
     username: '<%=p("elasticsearch.username")%>'
     password: '<%=p("elasticsearch.password")%>'
-    
+
     template:
       path: /var/vcap/jobs/bosh-log-forwarder/config/filebeat.template.json
 

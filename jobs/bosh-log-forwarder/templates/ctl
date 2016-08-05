@@ -24,7 +24,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u $RUNAS:$RUNAS \
-      filebeat -c $CONFIG_DIR/filebeat.yml 
+      filebeat -c $CONFIG_DIR/filebeat.yml
     ;;
 
   stop)
