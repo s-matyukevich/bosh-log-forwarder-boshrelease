@@ -1,0 +1,7 @@
+---
+name: filebeat
+
+dependencies:
+
+files:
+- filebeat/filebeat-1.2.3-x86_64.tar.gz

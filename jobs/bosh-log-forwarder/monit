@@ -1,0 +1,5 @@
+check process bosh-log-forwarder
+  with pidfile /var/vcap/sys/run/bosh-log-forwarder/bosh-log-forwarder.pid
+  start program "/var/vcap/jobs/bosh-log-forwarder/bin/ctl start"
+  stop program "/var/vcap/jobs/bosh-log-forwarder/bin/ctl stop"
+  group vcap

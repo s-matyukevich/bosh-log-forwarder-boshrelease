@@ -1,0 +1,22 @@
+---
+name: bosh-log-forwarder
+templates:
+  generage_config.sh.erb: bin/generate_config.sh
+  ctl: bin/ctl
+  filebeat.template.json: config/filebeat.template.json
+
+packages:
+- filebeat
+
+properties:
+  elasticsearch.hosts:
+    description: List of elasticsearch hosts in format "<host or ip>:<port>"
+  elasticsearch.protocol:
+    description: Elasticsearch protocol
+    default: http
+  elasticsearch.username:
+    description: Elasticsearch username
+    default: ""
+  elasticsearch.password:
+    description: Elasticsearch password
+    default: ""

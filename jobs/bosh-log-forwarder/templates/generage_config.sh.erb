@@ -1,0 +1,46 @@
+#!/bin/bash
+
+config=/var/vcap/jobs/bosh-log-forwarder/config/filebeat.yml
+
+cat > $config <<EOF
+output:
+  elasticsearch:
+    hosts: <%= p("elasticsearch.hosts").to_json%> 
+    protocol: '<%=p("elasticsearch.protocol")%>'
+    username: '<%=p("elasticsearch.username")%>'
+    password: '<%=p("elasticsearch.password")%>'
+    
+    template:
+      path: /var/vcap/jobs/bosh-log-forwarder/config/filebeat.template.json
+
+logging:
+  to_syslog: false
+  to_files: true
+
+  files:
+    path: /var/vcap/sys/log/bosh-log-forwarder
+    name: filebeat
+    rotateeverybytes: 10485760 # = 10MB
+    keepfiles: 7
+
+  level: error
+
+filebeat:
+  registry_file: /var/vcap/store/bosh-log-forwarder/filebeat
+  prospectors:
+EOF
+
+jobs=$(ls /var/vcap/jobs)
+
+for job in $jobs; do
+cat >> $config <<EOF
+    -
+      paths:
+        - "/var/vcap/sys/log/$job/*"
+      fields:
+        job: $job
+        deployment: <%= spec.deployment %>
+        address: <%= spec.address %>
+      fields_under_root: true
+EOF
+done
