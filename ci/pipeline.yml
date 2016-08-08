@@ -1,0 +1,67 @@
+---
+jobs:
+- name: build-bosh-log-forwarder-release
+  plan:
+  - aggregate:
+    - get: release-git-repo
+      resource: bosh-log-forwarder-release-git-repo
+      trigger: true
+    - get: pipeline-tasks
+    - get: final-builds-dir-tarball
+      resource: bosh-log-forwarder-final-builds-dir-tarball
+    - get: releases-dir-tarball
+      resource: bosh-log-forwarder-releases-dir-tarball
+  - task: finalize-release
+    file: pipeline-tasks/finalize-bosh-release.yml
+    params:
+      PRIVATE_YML_CONTENT: {{bosh-log-forwarder-private-yml}}
+  - aggregate:
+    - put: bosh-log-forwarder-release-tarball
+      params:
+        file: finalized-release/bosh-log-forwarder-*.tgz
+    - put: bosh-log-forwarder-final-builds-dir-tarball
+      params:
+        file: finalized-release/final-builds-dir-bosh-log-forwarder.tgz
+    - put: bosh-log-forwarder-releases-dir-tarball
+      params:
+        file: finalized-release/releases-dir-bosh-log-forwarder.tgz
+
+resources:
+- name: pipeline-tasks
+  type: git
+  source:
+    uri: {{pipeline-tasks-git-url}}
+    branch: {{pipeline-tasks-git-branch}}
+
+- name: bosh-log-forwarder-release-git-repo
+  type: git
+  source:
+    uri: {{bosh-log-forwarder-release-git-url}}
+    branch: {{bosh-log-forwarder-release-git-branch}}
+
+- name: bosh-log-forwarder-release-tarball
+  type: s3
+  source:
+    bucket: {{s3-bosh-releases-bucket}}
+    regexp: bosh-log-forwarder-(.*).tgz
+    access_key_id: {{s3-bosh-releases-access-key-id}}
+    secret_access_key: {{s3-bosh-releases-secret-access-key}}
+    region_name: {{aws-region}}
+
+- name: bosh-log-forwarder-final-builds-dir-tarball
+  type: s3
+  source:
+    bucket: {{s3-bosh-releases-bucket}}
+    versioned_file: final-builds-dir-bosh-log-forwarder.tgz
+    access_key_id: {{s3-bosh-releases-access-key-id}}
+    secret_access_key: {{s3-bosh-releases-secret-access-key}}
+    region_name: {{aws-region}}
+
+- name: bosh-log-forwarder-releases-dir-tarball
+  type: s3
+  source:
+    bucket: {{s3-bosh-releases-bucket}}
+    versioned_file: releases-dir-bosh-log-forwarder.tgz
+    access_key_id: {{s3-bosh-releases-access-key-id}}
+    secret_access_key: {{s3-bosh-releases-secret-access-key}}
+    region_name: {{aws-region}}
