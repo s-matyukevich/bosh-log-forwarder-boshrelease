@@ -5,3 +5,4 @@ blobstore:
     bucket_name: smatyukevich-blobstore
     region: us-west-1
     endpoint: https://s3-us-west-1.amazonaws.com
+final_name: bosh-log-forwarder

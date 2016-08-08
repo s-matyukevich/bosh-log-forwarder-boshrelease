@@ -15,6 +15,7 @@ jobs:
     file: pipeline-tasks/finalize-bosh-release.yml
     params:
       PRIVATE_YML_CONTENT: {{bosh-log-forwarder-private-yml}}
+      FINAL_YML_CONTENT: {{bosh-log-forwarder-final-yml}}
   - aggregate:
     - put: bosh-log-forwarder-release-tarball
       params:

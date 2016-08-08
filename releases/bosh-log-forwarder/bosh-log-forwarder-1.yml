@@ -1,0 +1,16 @@
+---
+packages:
+- name: filebeat
+  version: 0828cd0c9c6d44222975f62a5a0740a05749a807
+  fingerprint: 0828cd0c9c6d44222975f62a5a0740a05749a807
+  sha1: d12b65a12d6f55e620e1fbdacfebea47afc47efc
+  dependencies: []
+jobs:
+- name: bosh-log-forwarder
+  version: 66facc73d437ff10f0e732ae2cccbf4fc4d73284
+  fingerprint: 66facc73d437ff10f0e732ae2cccbf4fc4d73284
+  sha1: 4215c969f03cb83ed2e093f08fe298e3d1a2b827
+commit_hash: 991d7ed3
+uncommitted_changes: true
+name: bosh-log-forwarder
+version: '1'
